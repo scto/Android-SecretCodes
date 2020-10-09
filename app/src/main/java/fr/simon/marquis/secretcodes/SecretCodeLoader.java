@@ -5,16 +5,15 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v4.content.AsyncTaskLoader;
 
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import androidx.loader.content.AsyncTaskLoader;
+
 class SecretCodeLoader extends AsyncTaskLoader<List<SecretCode>> {
-
-
     private final InterestingConfigChanges lastConfig = new InterestingConfigChanges();
     final PackageManager pm;
 

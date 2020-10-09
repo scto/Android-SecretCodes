@@ -6,13 +6,6 @@ import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<SecretCode>>, SecretCodeAdapter.ItemClickListener {
 
@@ -37,11 +39,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         progressView = findViewById(R.id.progressView);
         emptyView = findViewById(R.id.emptyView);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView = findViewById(R.id.recyclerview);
         assert recyclerView != null;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.numColumns), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new fr.simon.marquis.secretcodes.SecretCodeAdapter(this, this));
+        recyclerView.setAdapter(new SecretCodeAdapter(this));
 
         ActionBar bar = getSupportActionBar();
         assert bar != null;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         countView = (TextView) bar.getCustomView();
 
         // emptyView.animate().alpha(0).setDuration(getResources().getInteger(android.R.integer.config_longAnimTime));
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         AboutDialog.show(getSupportFragmentManager());
     }
 
+    @NonNull
     @Override
     public Loader<List<SecretCode>> onCreateLoader(int id, Bundle args) {
         Log.e("Loader", "onCreateLoader");
@@ -86,18 +89,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoadFinished(Loader<List<SecretCode>> loader, List<SecretCode> data) {
+    public void onLoadFinished(@NonNull Loader<List<SecretCode>> loader, List<SecretCode> data) {
         int count = data.size();
         progressView.setVisibility(View.GONE);
         emptyView.setVisibility(count == 0 ? View.VISIBLE : View.GONE);
         countView.setText(String.valueOf(count));
         tada(countView, 2).start();
-        ((fr.simon.marquis.secretcodes.SecretCodeAdapter) recyclerView.getAdapter()).setData(data);
+        ((SecretCodeAdapter) recyclerView.getAdapter()).setData(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<SecretCode>> loader) {
-        ((fr.simon.marquis.secretcodes.SecretCodeAdapter) recyclerView.getAdapter()).setData(null);
+    public void onLoaderReset(@NonNull Loader<List<SecretCode>> loader) {
+        ((SecretCodeAdapter) recyclerView.getAdapter()).setData(null);
     }
 
     @Override

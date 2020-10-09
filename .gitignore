@@ -26,6 +26,7 @@ keystore.properties
 # Others
 Thumbs.db
 lint.xml
+*.DS_Store
 
 # Idea non-crucial project fileS
 *.iws

@@ -8,14 +8,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 public class AboutDialog extends DialogFragment {
 
@@ -30,9 +31,9 @@ public class AboutDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(TAG, true).commit();
-        PackageManager pm = getActivity().getPackageManager();
-        String packageName = getActivity().getPackageName();
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean(TAG, true).apply();
+        PackageManager pm = requireActivity().getPackageManager();
+        String packageName = requireActivity().getPackageName();
         String versionName;
         try {
             PackageInfo info = pm.getPackageInfo(packageName, 0);
@@ -41,11 +42,11 @@ public class AboutDialog extends DialogFragment {
             versionName = VERSION_UNAVAILABLE;
         }
 
-        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        LayoutInflater layoutInflater = requireActivity().getLayoutInflater();
         @SuppressLint("InflateParams") View rootView = layoutInflater.inflate(R.layout.dialog_about, null);
-        TextView nameAndVersionView = (TextView) rootView.findViewById(R.id.app_name_and_version);
+        TextView nameAndVersionView = rootView.findViewById(R.id.app_name_and_version);
         nameAndVersionView.setText(Html.fromHtml(getString(R.string.app_name_and_version, versionName)));
-        TextView aboutBodyView = (TextView) rootView.findViewById(R.id.about_body);
+        TextView aboutBodyView = rootView.findViewById(R.id.about_body);
         aboutBodyView.setText(Html.fromHtml(getString(R.string.about_body)));
         aboutBodyView.setMovementMethod(new LinkMovementMethod());
 

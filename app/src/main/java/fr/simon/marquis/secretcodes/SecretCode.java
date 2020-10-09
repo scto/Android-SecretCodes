@@ -2,8 +2,9 @@ package fr.simon.marquis.secretcodes;
 
 import android.net.Uri;
 
-class SecretCode {
+import androidx.annotation.NonNull;
 
+class SecretCode {
     private final String code;
     private final String label;
     private final Uri icon;
@@ -13,7 +14,6 @@ class SecretCode {
         this.icon = icon;
         this.label = label;
     }
-
 
     public String getLabel() {
         return label;
@@ -27,6 +27,7 @@ class SecretCode {
         return code;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SecretCode{" +

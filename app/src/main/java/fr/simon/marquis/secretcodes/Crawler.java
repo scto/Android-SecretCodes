@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -17,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
 
 final class Crawler {
 
@@ -45,9 +46,6 @@ final class Crawler {
         Set<String> codes = new HashSet<>();
         ArrayList<SecretCode> secretCodes = new ArrayList<>();
         List<PackageInfo> pil = pm.getInstalledPackages(PackageManager.GET_INTENT_FILTERS);
-        if (pil == null) {
-            return secretCodes;
-        }
         long max = pil.size();
         long cur = 0;
         int currentProgress = 0;

@@ -1,9 +1,6 @@
 package fr.simon.marquis.secretcodes;
 
-import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.ViewHolder> {
 
@@ -36,12 +36,13 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
     @NonNull
     private List<SecretCode> codes = new ArrayList<>();
 
-    public SecretCodeAdapter(@NonNull Context context, @NonNull ItemClickListener itemClickListener) {
-        picasso = Picasso.with(context);
+    public SecretCodeAdapter(@NonNull ItemClickListener itemClickListener) {
+        picasso = Picasso.get();
         this.itemClickListener = itemClickListener;
         setHasStableIds(true);
     }
 
+    @NonNull
     @Override
     public SecretCodeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_code, parent, false);
@@ -76,7 +77,7 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
     @Override
     public long getItemId(int position) {
         try {
-            return Long.valueOf(codes.get(position).getCode());
+            return Long.parseLong(codes.get(position).getCode());
         } catch (NumberFormatException e) {
             return codes.get(position).getLabel().hashCode();
         }
@@ -97,9 +98,9 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
         public ViewHolder(View v) {
             super(v);
             selector = v.findViewById(R.id.item_selector);
-            icon = (ImageView) v.findViewById(R.id.item_image);
-            code = (TextView) v.findViewById(R.id.item_code);
-            label = (TextView) v.findViewById(R.id.item_label);
+            icon = v.findViewById(R.id.item_image);
+            code = v.findViewById(R.id.item_code);
+            label = v.findViewById(R.id.item_label);
             background = v.findViewById(R.id.item_background);
         }
 
