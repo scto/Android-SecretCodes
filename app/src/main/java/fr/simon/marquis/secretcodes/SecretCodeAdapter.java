@@ -53,6 +53,7 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final SecretCode code = codes.get(position);
         holder.code.setText(code.getCode());
+        holder.name.setText(code.getComponentName());
         holder.label.setText(code.getLabel());
         Uri uri = code.getIcon();
         if (uri != null) {
@@ -92,6 +93,7 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
         public final View selector;
         public final ImageView icon;
         public final TextView code;
+        public final TextView name;
         public final TextView label;
         public final View background;
 
@@ -100,6 +102,7 @@ public class SecretCodeAdapter extends RecyclerView.Adapter<SecretCodeAdapter.Vi
             selector = v.findViewById(R.id.item_selector);
             icon = v.findViewById(R.id.item_image);
             code = v.findViewById(R.id.item_code);
+            name = v.findViewById(R.id.item_name);
             label = v.findViewById(R.id.item_label);
             background = v.findViewById(R.id.item_background);
         }

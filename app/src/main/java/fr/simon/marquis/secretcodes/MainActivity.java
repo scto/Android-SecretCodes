@@ -109,7 +109,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         try {
             sendBroadcast(new Intent("android.provider.Telephony.SECRET_CODE", Uri.parse("android_secret_code://" + code.getCode())));
         } catch (SecurityException se) {
-            Toast.makeText(MainActivity.this, R.string.security_exception, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + Uri.encode("*#*#" + code.getCode() + "#*#*")));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, R.string.security_exception, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -73,6 +73,18 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textStyle="italic"
+                android:textSize="10sp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                tools:ignore="SmallSp" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -23,6 +23,7 @@ final class Crawler {
 
     private static final String NAMESPACE = "http://schemas.android.com/apk/res/android";
     private static final String ANDROID_MANIFEST = "AndroidManifest.xml";
+    private static final String ATTR_VAL_NAME= "name";
     private static final String ATTR_VAL_LABEL = "label";
     private static final String ATTR_VAL_ICON = "icon";
     private static final String ATTR_VAL_HOST = "host";
@@ -64,6 +65,7 @@ final class Crawler {
 
                 int applicationLabel = 0;
                 int componentLabel = 0;
+                String componentName = "";
                 int intentFilterLabel = 0;
 
                 int applicationIcon = 0;
@@ -103,6 +105,7 @@ final class Crawler {
                             case TAG_ACTIVITY_ALIAS:
                             case TAG_SERVICE:
                             case TAG_RECEIVER:
+                                componentName = xrp.getAttributeValue(NAMESPACE, ATTR_VAL_NAME);
                                 componentLabel = xrp.getAttributeResourceValue(NAMESPACE, ATTR_VAL_LABEL, 0);
                                 componentIcon = xrp.getAttributeResourceValue(NAMESPACE, ATTR_VAL_ICON, 0);
                                 break;
@@ -117,7 +120,7 @@ final class Crawler {
                                         codes.add(c);
                                         String label = getBestString(pi, pm, applicationLabel, componentLabel, intentFilterLabel);
                                         Uri icon = getBestIcon(pi, applicationIcon, componentIcon, intentFilterIcon);
-                                        secretCodes.add(new SecretCode(c, icon, label));
+                                        secretCodes.add(new SecretCode(c, icon, label, pi.packageName, componentName));
                                     }
                                 }
                                 break;
